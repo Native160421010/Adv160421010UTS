@@ -53,4 +53,5 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
         super.onCleared()
         queue?.cancelAll(TAG)
     }
+
 }
