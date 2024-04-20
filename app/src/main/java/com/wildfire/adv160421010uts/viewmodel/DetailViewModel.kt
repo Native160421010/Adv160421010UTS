@@ -12,18 +12,12 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.wildfire.adv160421010uts.model.News
 
-class ListViewModel(application: Application): AndroidViewModel(application) {
-    val newsLD = MutableLiveData<ArrayList<News>>()
-    val newsLoadErrorLD = MutableLiveData<Boolean>()
-    val loadingLD = MutableLiveData<Boolean>()
-
+class DetailViewModel(application: Application) : AndroidViewModel(application) {
+    val detailLD = MutableLiveData<News>()
     val TAG = "volleyTag"
     private var queue: RequestQueue? = null
 
-    fun refresh() {
-        loadingLD.value = true
-        newsLoadErrorLD.value = false
-
+    fun fetchData(id: Int) {
         queue = Volley.newRequestQueue(getApplication())
         val url = "http://10.0.2.2/news/news.json"
         val stringRequest = StringRequest(
@@ -31,26 +25,19 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
             {
                 val sType = object : TypeToken<List<News>>() { }.type
                 val result = Gson().fromJson<List<News>>(it, sType)
-                newsLD.value = result as ArrayList<News>?
+                detailLD.value = result.find{it.id == id}
 
-                loadingLD.value = false
                 Log.d("showvoley", it)
             },
             {
                 Log.d("showvoley", it.toString())
-                newsLoadErrorLD.value = false
-                loadingLD.value = false
             })
         stringRequest.tag = TAG
         queue?.add(stringRequest)
-
-        newsLoadErrorLD.value = false
-        loadingLD.value = false
     }
 
     override fun onCleared() {
         super.onCleared()
         queue?.cancelAll(TAG)
     }
-
 }

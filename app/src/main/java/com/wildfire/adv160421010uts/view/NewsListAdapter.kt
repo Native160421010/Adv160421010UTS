@@ -2,6 +2,7 @@ package com.wildfire.adv160421010uts.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.wildfire.adv160421010uts.databinding.NewsListItemBinding
 import com.wildfire.adv160421010uts.model.News
@@ -22,11 +23,14 @@ class NewsListAdapter(val newsList:ArrayList<News>)
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.binding.txtTitle.text = newsList[position].title
         holder.binding.txtDesc.text = newsList[position].desc
+        holder.binding.txtCreator.text = newsList[position].creator
 
-//        holder.binding.btnRead.setOnClickListener {
-//            val action = StudentListFragmentDirections.actionStudentDetail()
-//            Navigation.findNavController(it).navigate(action)
-//        }
+        val id: Int = newsList[position].id ?: 0
+
+        holder.binding.btnRead.setOnClickListener {
+            val action = MainFragmentDirections.actionDetailFragment(id)
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     fun updateStudentList(newStudentList: ArrayList<News>) {

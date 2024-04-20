@@ -12,11 +12,32 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/actionMainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/ItemHome" />
     </fragment>
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/ItemHome"
         android:name="com.wildfire.adv160421010uts.view.MainFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/actionDetailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemProfile"
+        android:name="com.wildfire.adv160421010uts.view.profilFragment"
+        android:label="Profil"
+        tools:layout="@layout/fragment_profil" >
+        <action
+            android:id="@+id/actionLoginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.wildfire.adv160421010uts.view.detailFragment"
+        android:label="detailFragment" >
+        <argument
+            android:name="newsId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -22,8 +22,8 @@ class LoginFragment : Fragment() {
     private lateinit var prefManager: PrefManager
     private lateinit var username: String
     private lateinit var password: String
-    private val TAG = "volleyTag"
     private lateinit var binding: FragmentLoginBinding
+    private val TAG = "volleyTag"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +44,7 @@ class LoginFragment : Fragment() {
             username = binding.txtUsername.text.toString().trim()
             password = binding.txtPassword.text.toString().trim()
 
-            if(username.isEmpty() == null || username == ""){
+            if(username.isEmpty() || username == ""){
                 Toast.makeText(requireContext(), "Nama harus diisi!", Toast.LENGTH_SHORT).show()
                 binding.txtUsername.requestFocus()
             }
@@ -59,13 +59,13 @@ class LoginFragment : Fragment() {
                     { response ->
                         val result = Gson().fromJson(response, Response::class.java)
                         if (result.result == "OK") {
-                            // Handle successful login
+                            prefManager.setLoggin(true)
+                            prefManager.setUsername(username)
                             Toast.makeText(requireContext(), "Welcome, $username!", Toast.LENGTH_SHORT).show()
-                            // Navigate to another fragment or perform other actions
                             val action = LoginFragmentDirections.actionMainFragment()
                             Navigation.findNavController(requireView()).navigate(action)
+                            (activity as MainActivity).setBottomNavVisibility(View.VISIBLE)
                         } else {
-                            // Handle failed login
                             Toast.makeText(requireContext(), "Username/Password salah!", Toast.LENGTH_SHORT).show()
                         }
                     },

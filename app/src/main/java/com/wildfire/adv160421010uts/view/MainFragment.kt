@@ -14,7 +14,7 @@ import com.wildfire.adv160421010uts.viewmodel.ListViewModel
 
 class MainFragment : Fragment() {
     private lateinit var viewModel: ListViewModel
-    private val studentListAdapter  = NewsListAdapter(arrayListOf())
+    private val newsListAdapter  = NewsListAdapter(arrayListOf())
     private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(
@@ -32,7 +32,7 @@ class MainFragment : Fragment() {
         viewModel.refresh()
 
         binding.recView.layoutManager = LinearLayoutManager(context)
-        binding.recView.adapter = studentListAdapter
+        binding.recView.adapter = newsListAdapter
 
         binding.refreshLayout.setOnRefreshListener {
             binding.recView.visibility = View.GONE
@@ -41,14 +41,12 @@ class MainFragment : Fragment() {
             viewModel.refresh()
             binding.refreshLayout.isRefreshing = false
         }
-
-
         observeViewModel()
     }
 
     private fun observeViewModel() {
         viewModel.newsLD.observe(viewLifecycleOwner, Observer {
-            studentListAdapter.updateStudentList(it)
+            newsListAdapter.updateStudentList(it)
         })
         viewModel.newsLoadErrorLD.observe(viewLifecycleOwner, Observer {
             if(it == true) {

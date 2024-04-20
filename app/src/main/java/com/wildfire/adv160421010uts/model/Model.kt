@@ -5,4 +5,5 @@ data class News(
     var title:String?,
     var desc:String?,
     var creator:String?,
+    var content: List<List<String>>?
 )
