@@ -2,14 +2,13 @@ package com.wildfire.adv160421010uts.view
 
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
@@ -64,23 +63,17 @@ class regisFragment : Fragment() {
                 val stringRequest = StringRequest(
                     Request.Method.GET, url,
                     { response ->
-                        try {
-                            val result = Gson().fromJson(response, Response::class.java)
-                            if (result.result == "OK") {
-                                Toast.makeText(requireContext(), "Registrasi user $username berhasil!", Toast.LENGTH_SHORT).show()
-                                val action = regisFragmentDirections.actionRegisToLoginFragment()
-                                Navigation.findNavController(requireView()).navigate(action)
-                                (activity as MainActivity).setBottomNavVisibility(View.VISIBLE)
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    result.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error parsing JSON response: ${e.message}")
-                            Toast.makeText(requireContext(), "Error parsing JSON response", Toast.LENGTH_SHORT).show()
+                        val result = Gson().fromJson(response, LoginFragment.Response::class.java)
+                        if (result.result == "OK") {
+                            Toast.makeText(requireContext(), "Registrasi user $username berhasil!", Toast.LENGTH_SHORT).show()
+                            val action = regisFragmentDirections.actionRegisToLoginFragment()
+                            Navigation.findNavController(requireView()).navigate(action)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                result.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     },
                     { error ->
@@ -96,6 +89,11 @@ class regisFragment : Fragment() {
                 val action = regisFragmentDirections.actionRegisToLoginFragment()
                 Navigation.findNavController(requireView()).navigate(action)
             }
+        }
+
+        binding.txtSignIn.setOnClickListener{
+            val action = regisFragmentDirections.actionRegisToLoginFragment()
+            Navigation.findNavController(it).navigate(action)
         }
     }
 }

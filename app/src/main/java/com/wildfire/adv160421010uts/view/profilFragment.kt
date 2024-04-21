@@ -84,6 +84,7 @@ class profilFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener {
            prefManager.removeData()
+            Toast.makeText(requireContext(), "Logout berhasil!", Toast.LENGTH_SHORT).show()
             (activity as MainActivity).setBottomNavVisibility(View.GONE)
            val action = profilFragmentDirections.actionLoginFragment()
            Navigation.findNavController(requireView()).navigate(action)
@@ -118,7 +119,7 @@ class profilFragment : Fragment() {
                 if (result.result == "OK") {
                     Toast.makeText(requireContext(), "Data terupdate!", Toast.LENGTH_SHORT).show()
                     //prefManager.setUsername(newNama)
-                    //updateNama()
+                    updateNama()
                 } else {
                     Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
                 }
