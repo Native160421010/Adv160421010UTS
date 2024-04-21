@@ -24,7 +24,8 @@ import com.wildfire.adv160421010uts.viewmodel.PrefManager
 
 class profilFragment : Fragment() {
     private lateinit var oldNama: String
-    private lateinit var newNama: String
+    private lateinit var frontName: String
+    private lateinit var backName: String
     private lateinit var oldPass: String
     private lateinit var newPass: String
     private lateinit var prefManager: PrefManager
@@ -44,32 +45,39 @@ class profilFragment : Fragment() {
     }
 
     private fun updateNama(){
-        oldNama = prefManager.getUsername().toString()
-        val editableOldNama: Editable = Editable.Factory.getInstance().newEditable(oldNama)
-        binding.txtOldUsername.text = editableOldNama
+        val editableFrontName: Editable = Editable.Factory.getInstance().newEditable(frontName)
+        binding.txtFrontName.text = editableFrontName
+
+        val editableBackName: Editable = Editable.Factory.getInstance().newEditable(backName)
+        binding.txtBackName.text = editableBackName
+
+        binding.txtNewPass.setText(Editable.Factory.getInstance().newEditable(""));
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefManager = PrefManager(requireContext())
-        updateNama()
+        oldNama = prefManager.getUsername().toString()
+        //updateNama()
 
         binding.btnChangeProfil.setOnClickListener {
-            newNama = binding.txtNewUsername.text.toString().trim()
+            frontName = binding.txtFrontName.text.toString().trim()
+            backName = binding.txtBackName.text.toString().trim()
             newPass = binding.txtNewPass.text.toString().trim()
 
-            if(newNama.isEmpty() || newNama == ""){
-                Toast.makeText(requireContext(), "Nama harus diisi!", Toast.LENGTH_SHORT).show()
-                binding.txtNewUsername.requestFocus()
+            if(frontName.isEmpty() || frontName == ""){
+                Toast.makeText(requireContext(), "Nama depan harus diisi!", Toast.LENGTH_SHORT).show()
+                binding.txtFrontName.requestFocus()
             }
-            else if(newNama == oldNama && newPass == ""){
-                Toast.makeText(requireContext(), "Data harus ada yang diganti!", Toast.LENGTH_SHORT).show()
-                binding.txtNewUsername.requestFocus()
+            else if(backName.isEmpty() || backName == ""){
+                Toast.makeText(requireContext(), "Nama belakang harus diisi!", Toast.LENGTH_SHORT).show()
+                binding.txtBackName.requestFocus()
+            }
+            else if(newPass.isEmpty() || newPass == ""){
+                Toast.makeText(requireContext(), "Password harus diisi!", Toast.LENGTH_SHORT).show()
+                binding.txtNewPass.requestFocus()
             }
             else{
-                if(newNama.isEmpty()) newNama = ""
-                if(newPass.isEmpty()) newPass = ""
-
                 showConfirmationDialog()
             }
         }
@@ -102,22 +110,22 @@ class profilFragment : Fragment() {
     }
 
     private fun changeProfile(){
-        val url = "http://10.0.2.2/news/changeProfile.php?oldNama=$oldNama&newNama=$newNama&oldPass=$oldPass&newPass=$newPass"
+        val url = "http://10.0.2.2/news/changeProfile.php?oldNama=$oldNama&frontName=$frontName&backName=$backName&newPass=$newPass&oldNama=$oldNama&oldPass=$oldPass"
         val stringRequest = StringRequest(
             Request.Method.GET, url,
             { response ->
                 val result = Gson().fromJson(response, LoginFragment.Response::class.java)
                 if (result.result == "OK") {
                     Toast.makeText(requireContext(), "Data terupdate!", Toast.LENGTH_SHORT).show()
-                    prefManager.setUsername(newNama)
-                    updateNama()
+                    //prefManager.setUsername(newNama)
+                    //updateNama()
                 } else {
-                    Toast.makeText(requireContext(), "Username/Password lama salah!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
                 }
             },
             { error ->
                 Log.d(TAG, error.toString())
-                Toast.makeText(requireContext(), "Database Error: $error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error Profil: $error", Toast.LENGTH_SHORT).show()
             })
         stringRequest.tag = TAG
         Volley.newRequestQueue(requireContext()).add(stringRequest)

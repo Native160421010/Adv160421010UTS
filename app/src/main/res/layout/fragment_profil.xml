@@ -11,13 +11,13 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextInputLayoutOldName"
+            android:id="@+id/TextInputLayoutFrontName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="144dp"
             android:layout_marginEnd="32dp"
-            android:hint="Old Username"
+            android:hint="Front Name"
             app:expandedHintEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
@@ -26,28 +26,28 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtOldUsername"
+                android:id="@+id/txtFrontName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/TextInputLayoutNewName"
+            android:id="@+id/TextInputLayoutBackName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:hint="New Username*"
+            android:hint="Back Name"
             app:expandedHintEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutOldName">
+            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutFrontName">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtNewUsername"
+                android:id="@+id/txtBackName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -65,24 +65,13 @@
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutNewName">
+            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutBackName">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtNewPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/textViewMarked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:text="There are required fields in this form marked *"
-            android:textStyle="italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutNewPass" />
 
         <Button
             android:id="@+id/btnChangeProfil"
@@ -92,7 +81,7 @@
             android:layout_marginEnd="32dp"
             android:text="CHANGE"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMarked" />
+            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutNewPass" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -102,7 +91,7 @@
             android:layout_marginTop="32dp"
             android:text="LOGOUT"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMarked" />
+            app:layout_constraintTop_toBottomOf="@+id/TextInputLayoutNewPass" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

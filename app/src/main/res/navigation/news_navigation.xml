@@ -13,6 +13,9 @@
         <action
             android:id="@+id/actionMainFragment"
             app:destination="@id/ItemHome" />
+        <action
+            android:id="@+id/actionRegisFragment"
+            app:destination="@id/regisFragment" />
     </fragment>
     <fragment
         android:id="@+id/ItemHome"
@@ -35,9 +38,17 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.wildfire.adv160421010uts.view.detailFragment"
-        android:label="detailFragment" >
+        android:label="Detail">
         <argument
             android:name="newsId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/regisFragment"
+        android:name="com.wildfire.adv160421010uts.view.regisFragment"
+        android:label="Registrasi">
+        <action
+            android:id="@+id/actionRegisToLoginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

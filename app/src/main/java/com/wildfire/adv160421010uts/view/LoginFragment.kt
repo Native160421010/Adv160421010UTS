@@ -20,8 +20,8 @@ import com.wildfire.adv160421010uts.viewmodel.PrefManager
 
 class LoginFragment : Fragment() {
     private lateinit var prefManager: PrefManager
-    private lateinit var username: String
-    private lateinit var password: String
+    private var username: String = ""
+    private var password: String = ""
     private lateinit var binding: FragmentLoginBinding
     private val TAG = "volleyTag"
 
@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefManager = PrefManager(requireContext())
 
-        binding.btnSIgnIn.setOnClickListener {
+        binding.btnSignIn.setOnClickListener {
             username = binding.txtUsername.text.toString().trim()
             password = binding.txtPassword.text.toString().trim()
 
@@ -76,6 +76,11 @@ class LoginFragment : Fragment() {
                 stringRequest.tag = TAG
                 Volley.newRequestQueue(requireContext()).add(stringRequest)
             }
+        }
+
+        binding.txtSignUp.setOnClickListener {
+            val action = LoginFragmentDirections.actionRegisFragment()
+            Navigation.findNavController(requireView()).navigate(action)
         }
     }
 
