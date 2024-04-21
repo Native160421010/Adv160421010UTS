@@ -11,18 +11,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.wildfire.adv160421010uts.R
-import com.wildfire.adv160421010uts.databinding.FragmentLoginBinding
 import com.wildfire.adv160421010uts.databinding.FragmentProfilBinding
-import com.wildfire.adv160421010uts.view.profilFragmentDirections.Companion.actionLoginFragment
+import com.wildfire.adv160421010uts.viewmodel.DetailViewModel
 import com.wildfire.adv160421010uts.viewmodel.PrefManager
+import com.wildfire.adv160421010uts.viewmodel.ProfilViewModel
 
 class profilFragment : Fragment() {
+    private lateinit var profilViewModel: ProfilViewModel
     private lateinit var oldNama: String
     private lateinit var frontName: String
     private lateinit var backName: String
@@ -58,7 +61,9 @@ class profilFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefManager = PrefManager(requireContext())
         oldNama = prefManager.getUsername().toString()
-        //updateNama()
+        profilViewModel = ViewModelProvider(this).get(ProfilViewModel::class.java)
+        profilViewModel.fetch(oldNama)
+        observeViewModel()
 
         binding.btnChangeProfil.setOnClickListener {
             frontName = binding.txtFrontName.text.toString().trim()
@@ -91,6 +96,15 @@ class profilFragment : Fragment() {
         }
     }
 
+    fun observeViewModel() {
+        profilViewModel.userLD.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "User Data: $it")
+            binding.txtFrontName.setText(it.front_Name)
+            binding.txtBackName.setText(it.back_Name)
+            binding.txtNewPass.setText(it.password)
+        })
+    }
+
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val inflater = layoutInflater
@@ -118,7 +132,6 @@ class profilFragment : Fragment() {
                 val result = Gson().fromJson(response, LoginFragment.Response::class.java)
                 if (result.result == "OK") {
                     Toast.makeText(requireContext(), "Data terupdate!", Toast.LENGTH_SHORT).show()
-                    //prefManager.setUsername(newNama)
                     updateNama()
                 } else {
                     Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()

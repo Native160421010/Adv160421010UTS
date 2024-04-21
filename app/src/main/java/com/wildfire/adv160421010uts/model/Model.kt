@@ -7,3 +7,10 @@ data class News(
     var creator:String?,
     var content: List<List<String>>?
 )
+
+data class User(
+    var nama:String?,
+    var front_Name:String?,
+    var back_Name:String?,
+    var password:String?,
+)
